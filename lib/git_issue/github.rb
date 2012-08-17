@@ -67,6 +67,10 @@ class GitIssue::Github < GitIssue::Base
 
     issues = fetch_json(url, options, params)
     issues = issues.sort_by{|i| i['number'].to_i} unless params[:sort] || params[:direction]
+    if options[:labels_not]
+      ignore_labels = options[:labels_not].split(',')
+      issues = issues.delete_if{|i| i['labels'].select{|l| ignore_labels.index(l['name'])}.length != 0 }
+    end
 
     t_max = issues.map{|i| mlength(i['title'])}.max
     l_max = issues.map{|i| mlength(i['labels'].map{|l| l['name']}.join(","))}.max
@@ -411,6 +415,7 @@ class GitIssue::Github < GitIssue::Base
     opts.on("--assignee=VALUE", "Use the given value to create/update issue. or query of listing issues, (String User login)"){|v| @options[:assignee] = v }
     opts.on("--mentioned=VALUE", "Query of listing issues, (String User login)"){|v| @options[:mentioned] = v }
     opts.on("--labels=VALUE", "Use the given value to create/update issue. or query of listing issues, (String list of comma separated Label names)"){|v| @options[:labels] = v }
+    opts.on("--labels_not=VALUE", "Use the  query of listing issues, (String list of comma separated Label names)"){|v| @options[:labels_not] = v }
     opts.on("--sort=VALUE", "Query of listing issues, (created,  updated,  comments,  default: created)"){|v| @options[:sort] = v }
     opts.on("--direction=VALUE", "Query of listing issues, (asc or desc,  default: desc.)"){|v| @options[:direction] = v }
     opts.on("--since=VALUE", "Query of listing issue, (Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ)"){|v| @options[:since] = v }
