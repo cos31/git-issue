@@ -18,7 +18,7 @@ now available issue-tracker system is Redmine and Github-issues.
 
     $ git clone https://github.com/yuroyoro/git-issue.git
     $ cd git-issue
-    $ gem install jeweler
+    $ gem install jeweler pit
     $ rake install
 
 ## Configuration(Redmine)
@@ -133,6 +133,7 @@ set user and password of github(for authentication)
           --assignee=VALUE             Use the given value to create/update issue. or query of listing issues, (String User login)
           --mentioned=VALUE            Query of listing issues, (String User login)
           --labels=VALUE               Use the given value to create/update issue. or query of listing issues, (String list of comma separated Label names)
+          --labels_not=VALUE           Use the  query of listing issues, (String list of comma separated Label names)
           --sort=VALUE                 Query of listing issues, (created,  updated,  comments,  default: created)
           --direction=VALUE            Query of listing issues, (asc or desc,  default: desc.)
           --since=VALUE                Query of listing issue, (Optional string of a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ)
